@@ -15,7 +15,7 @@ public class ProjectileMove : MonoBehaviour
         {
             Debug.Log(collision.gameObject.name);
 
-            if (collision.gameObject.name == "wall")
+            if (collision.gameObject.name == "Wall")
             {
                 GameObject temp = this.gameObject;
                 Destroy(temp);
@@ -28,6 +28,23 @@ public class ProjectileMove : MonoBehaviour
                 Destroy(temp);
             }
         
-    }   
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Wall")
+        {
+            GameObject temp = this.gameObject;
+            Destroy(temp);
+        }
+
+        if (other.gameObject.tag == "Monster")
+        {
+           other.gameObject.GetComponent<MonsterController>().Mpnster_Damaged(1);
+            GameObject temp = this.gameObject;
+            Destroy(temp);
+        }
+    }
 }
 
+
+    
