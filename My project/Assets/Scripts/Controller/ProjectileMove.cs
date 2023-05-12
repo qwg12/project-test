@@ -6,6 +6,14 @@ public class ProjectileMove : MonoBehaviour
 {
     public Vector3 launchDirection;
 
+    public enum BULLETTYPE
+    {
+        PLAYER,
+        ENEMY
+    }
+
+    public BULLETTYPE bulletType = BULLETTYPE.PLAYER;
+
     private void FixedUpdate()
     {
         float moveAmount = 3 * Time.fixedDeltaTime;
@@ -37,12 +45,20 @@ public class ProjectileMove : MonoBehaviour
             Destroy(temp);
         }
 
-        if (other.gameObject.tag == "Monster")
+        if (other.gameObject.tag == "Monster" && bulletType == BULLETTYPE.PLAYER)
         {
            other.gameObject.GetComponent<MonsterController>().Mpnster_Damaged(1);
             GameObject temp = this.gameObject;
             Destroy(temp);
         }
+
+        if (other.gameObject.tag == "Player" && bulletType == BULLETTYPE.ENEMY)
+        {
+            other.gameObject.GetComponent<PlayerController>().Player_Damaged(1);
+            GameObject temp = this.gameObject;
+            Destroy(temp);
+        }
+
     }
 }
 
